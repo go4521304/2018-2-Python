@@ -1,8 +1,6 @@
 from pico2d import *
 import random
-import os
 
-os.chdir("..\\resource")
 
 def handle_events():
     global running
@@ -17,14 +15,14 @@ def handle_events():
 
 class Grass:
     def __init__(self):
-        self.image = load_image("grass.png")
+        self.image = load_image("..\\resource\\grass.png")
 
     def draw(self):
         self.image.draw(400, 30)
 
 class Boy:
     def __init__(self):
-        self.image = load_image("run_animation.png")
+        self.image = load_image("..\\resource\\run_animation.png")
         self.frame = 0
         self.x, self.y = random.randint(0, 200), random.randint(90, 550)
         self.frame = random.randint(0, 7)
