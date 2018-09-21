@@ -26,26 +26,22 @@ class Boy:
     def __init__(self):
         self.image = load_image("run_animation.png")
         self.frame = 0
-        self.x, self.y = 0, 90
+        self.x, self.y = random.randint(0, 200), random.randint(90, 550)
+        self.frame = random.randint(0, 7)
+        self.speed = random.uniform(1.0, 2.0)
 
     def draw(self):
         self.image.clip_draw(self.frame*100, 0, 100, 100, self.x, self.y)
 
     def update(self):
         self.frame = (self.frame + 1) % 8
-        self.x += 5
+        self.x += self.speed
 
 
 open_canvas()
 
-#boy = Boy()
-boys = []
-for i in range(20):
-    boys += [Boy()]
-
-for b in boys:
-    b.y = random.randint(90, 550)
-
+boys = [Boy() for i in range(20)]
+#boys = [ Boy() ] * 20 이건 안됨
 
 grass = Grass()
 
@@ -56,15 +52,14 @@ while(running):
 
     clear_canvas()
     grass.draw()
-    #boy.draw()
+
     for b in boys:
         b.draw()
 
     update_canvas()
 
-    #boy.update()
     for b in boys:
         b.update()
-    delay(0.02)
+    delay(0.03)
 
 close_canvas()
