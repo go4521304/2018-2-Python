@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 import os
 
 os.chdir("..\\resource")
@@ -37,7 +38,15 @@ class Boy:
 
 open_canvas()
 
-boy = Boy()
+#boy = Boy()
+boys = []
+for i in range(20):
+    boys += [Boy()]
+
+for b in boys:
+    b.y = random.randint(90, 550)
+
+
 grass = Grass()
 
 running = True
@@ -47,10 +56,15 @@ while(running):
 
     clear_canvas()
     grass.draw()
-    boy.draw()
+    #boy.draw()
+    for b in boys:
+        b.draw()
+
     update_canvas()
 
-    boy.update()
+    #boy.update()
+    for b in boys:
+        b.update()
     delay(0.02)
 
 close_canvas()
