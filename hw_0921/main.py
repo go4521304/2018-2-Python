@@ -1,21 +1,6 @@
 from pico2d import *
 import random
-<<<<<<< HEAD
 import math
-=======
-
-def handle_events():
-    global running
-    global x, y
-
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:
-            running = False
-
-        elif event.type == SDL_MOUSEMOTION:
-            x, y = event.x, event.y
->>>>>>> 7e2bb9511926f07769d90c4083375d83b920a63f
 
 class Grass:
     def __init__(self):
@@ -24,7 +9,6 @@ class Grass:
     def draw(self):
         self.image.draw(400, 30)
 
-<<<<<<< HEAD
 class Boy:
     def __init__(self):
         self.image = load_image("..\\resource\\run_animation.png")
@@ -84,26 +68,5 @@ while(running):
     for i in boys:
         i.image_update()
     delay(0.03)
-=======
-class Boy():
-    def __init__(self):
-        self.image = load_image("..\\resource\\run_animation.png")
-
-open_canvas()
-grass = Grass()
-
-running = True
-x, y = 400,90
-
-while(running):
-    handle_events()
-
-    clear_canvas()
-    grass.draw()
-
-    update_canvas()
-    delay(0.01)
-
 
 close_canvas()
->>>>>>> 7e2bb9511926f07769d90c4083375d83b920a63f
