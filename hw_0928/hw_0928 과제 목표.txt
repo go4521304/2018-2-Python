@@ -1,0 +1,18 @@
+repository 에 hw_0928 폴더를 만들고 다음 파일을 추가한다.
+
+- game_framework.py : 수업 repository 로부터 복사한다.
+
+- main.py : 프로그램의 시작이 되는 파일로, 과제 검사를 위해서 python main.py 로 실행할 것이다.
+
+- logo_state.py : 로고 화면을 보여주고 1초 후 title_state 로 전환한다 (change_state)
+
+- title_state.py : 타이틀 화면을 보여준다. Space 키를 누르면 boys_state 를 push 하며, ESC 키를 누르면 프로그램을 종료한다.
+
+- boys_state.py : 이전 과제에서 했던 내용을 그대로 사용한다. ESC 키를 누르면 이전 state 로 돌아간다.
+
+ 
+
+이미지는 강의자료에 올린 kpu_credit.png 와 title.png 를 사용하되 hw_0928 폴더에 있어도 되고 공통 리소스 폴더에 있어도 된다.
+
+ 
+
