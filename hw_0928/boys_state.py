@@ -59,6 +59,15 @@ def enter():
     boys = [Boy() for i in range(20)]
     way = [0, 0]
 
+def exit():
+    global boys
+    global grass
+    global way
+
+    del(boys)
+    del(grass)
+    del(way)
+    
 
 def draw():
     global grass
@@ -80,11 +89,10 @@ def update():
 
     delay(0.03)
 
-def exit():
-    global boys
-    global grass
-    global way
 
-    del(boys)
-    del(grass)
-    del(way)
+if __name__ == '__main__':
+    import sys
+    current_module = sys.modules[__name__]
+    open_canvas()
+    game_framework.run(current_module)
+    close_canvas()

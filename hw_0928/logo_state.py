@@ -8,13 +8,11 @@ logo_time = 0.0
 
 def enter():
     global image
-    open_canvas()
     image = load_image("..\\resource\\kpu_credit.png")
 
 def exit():
     global image
     del(image)
-    pass
 
 def update():
     global logo_time
@@ -34,3 +32,10 @@ def draw():
 def handle_events():
     events = get_events()
     pass
+
+if __name__ == '__main__':
+    import sys
+    current_module = sys.modules[__name__]
+    open_canvas()
+    game_framework.run(current_module)
+    close_canvas()
