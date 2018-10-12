@@ -12,23 +12,53 @@ class Grass:
         self.image.draw(400, 30)
 
 class Boy:
+    image = None
+
     def __init__(self):
-        self.image = load_image("..\\resource\\run_animation.png")
         self.x = random.randint(0, 800 - 1)
         self.y = random.randint(90, 200)
         self.frame = random.randint(0, 7)
-        self.speed = random.randint(2 ,5)
+        self.speed = random.randint(1 ,30)
+        self.state = 0
+        self.check = False
+
+        if Boy.image == None:
+            Boy.image = load_image("..\\resource\\animation_sheet.png")
 
     def draw(self):
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+        Boy.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
 
     def image_update(self):
         global way
 
-        self.degree = math.atan2(float(way[1]) - float(self.y), float(way[0]) - float(self.x))
+        d = [way[0] - self.x, way[1] - self.y]
+        dist = math.sqrt(d[0] ** 2 + d[1] ** 2)
 
-        self.x += math.cos(self.degree) * self.speed
-        self.y += math.sin(self.degree) * self.speed
+
+        if dist > 0:
+            self.check = False
+
+            self.x += self.speed * d[0] / dist
+            self.y += self.speed * d[1] / dist
+
+            #if d[0] < 0 and self.x < way[0]: self.x = way[0]
+            #if d[0] > 0 and self.x > way[0]: self.x = way[0]
+            if d[0] < 0:
+                self.state = 0
+                if self.x < way[0]:
+                    self.x = way[0]
+            if d[0] > 0:
+                self.state = 1
+                if self.x > way[0]:
+                    self.x = way[0]
+
+            if d[1] < 0 and self.y < way[1]: self.y = way[1]
+            if d[1] > 0 and self.y > way[1]: self.y = way[1]
+
+        if dist == 0 and self.check == False:
+            self.check = True
+            self.state = (self.state + 2) % 4
+
         self.frame = (self.frame + 1) % 8
 
 grass = None
@@ -56,7 +86,7 @@ def enter():
     global way
 
     grass = Grass()
-    boys = [Boy() for i in range(20)]
+    boys = [Boy() for i in range(1000)]
     way = [0, 0]
 
 def exit():
