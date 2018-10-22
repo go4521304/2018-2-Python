@@ -5,6 +5,11 @@ from pico2d import *
 # 본 게임 예상 / 캐릭터 선택창 -> 본게임 -> 엔딩 -> 타이틀
 name = 'Test_state'
 
+class Rope:
+    def __init__(self):
+        self.angle
+
+
 def enter():
     pass
 
