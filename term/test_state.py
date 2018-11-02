@@ -6,36 +6,39 @@ import math
 # 본 게임 예상 / 캐릭터 선택창 -> 본게임 -> 엔딩 -> 타이틀
 name = 'Test_state'
 
-class Rope:
+class Chacter:
     def __init__(self):
-        self.angle = 0
-        self.Max = 50
-        self.line = 300
-        self.dir = 1
-        self.image = load_image('..\\resource\\character.png')
+        self.image = load_image("..\\res\\character_1.png")
+
+        self.POS = [720/2, 1280-200]   # Current position
+
+        #self.R = 0.5        # Resistance
+        self.A =  0.0        # Angle
+        self.L = 200         # Length
+
+        self.T = [0.0, 10.0]    # Tension
+        self.G = [0.0, -10.0]   # Gravity
+        self.V = [0.0, 0.0]     # Velocity
+        self.F = [0.0, 0.0]     # Force (by character)
 
     def draw(self):
-        clear_canvas()
-        tmp = [self.line * math.sin(self.angle * 3.14 * 180), self.line * math.cos(self.angle * 3.14 * 180)]
-        self.image.clip_draw(0,0,100,100,tmp[0],720-tmp[1])
-        update_canvas()
+        #self.image.clip_draw(0, 0, 120, 160, self.POS[0], self.POS[1])
+        print(self.POS, self.T, self.V, self.A)
+
 
     def update(self):
-        if dir == 1:
-            self.angle += 1
+        self.POS += [(int)(self.V[0] + self.F[0] + self.G[0] + self.T[0]), (int)(self.V[1] + self.F[1] + self.G[1] + self.T[1])]
 
-        else:
-            self.angle -= 1
 
-        if self.angle == 50 or self.angle == -50:
-            dir = (dir + 1) % 2
-
+ch = None
 
 def enter():
-    pass
+    global ch
+    ch = Chacter()
 
 def exit():
-    pass
+    global ch
+    del(ch)
 
 def handle_events():
     events = get_events()
@@ -45,10 +48,13 @@ def handle_events():
     pass
 
 def draw():
-    pass
+    global ch
+    ch.draw()
+    delay(1)
 
 def update():
-    pass
+    global ch
+    ch.update
 
 def pause():
     pass
