@@ -1,35 +1,40 @@
 from pico2d import *
 import game_framework
+# import boys_state
 import title_state
-
-name = "LogoState"
-image = None
-logo_time = 0.0
+import time
 
 def enter():
-    global image
-    image = load_image("..\\res\\logo.png")
+    global logo, startedOn
+    startedOn = time.time()
+    logo = load_image('../res_term/logo.png')
 
 def exit():
-    global image
-    del(image)
-
-def update():
-    global logo_time
-
-    if (logo_time > 1.0):
-        logo_time = 0
-        game_framework.change_state(title_state)
-    delay(0.01)
-    logo_time +=0.01
+    global logo
+    del logo
+    #logo = None
 
 def draw():
-    global image
     clear_canvas()
-    image.draw(640, 360)
+    logo.draw(640, 360)
     update_canvas()
 
+def update():
+    global startedOn
+    elapsed = time.time() - startedOn
+    print(elapsed)
+    if elapsed >= 1.0:
+        game_framework.change_state(title_state)
+        return
+    delay(0.03)
+
 def handle_events():
+    pass
+
+def pause():
+    pass
+
+def resume():
     pass
 
 if __name__ == '__main__':
@@ -38,3 +43,4 @@ if __name__ == '__main__':
     open_canvas(1280, 720)
     game_framework.run(current_module)
     close_canvas()
+

@@ -1,47 +1,43 @@
 from pico2d import *
 import game_framework
-import test_state
-
-name = "TitleState"
-image = None
+import main_state
 
 def enter():
-    global image
-    image = load_image("..\\res\\title.png")
+	global bgImage
+	bgImage = load_image('../res/title.png')
 
 def exit():
-    global image
-    del(image)
-
-def handle_events():
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-        else:
-            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                game_framework.quit()
-
-            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.push_state(test_state)
+	global bgImage
+	del bgImage
 
 def draw():
-    clear_canvas()
-    image.draw(640, 360)
-    update_canvas()
+	clear_canvas()
+	bgImage.draw(640, 360)
+	update_canvas()
 
 def update():
-    pass
+	delay(0.03)
+
+def handle_events():
+	events = get_events()
+	for e in events:
+		if e.type == SDL_QUIT:
+			game_framework.quit()
+		elif e.type == SDL_KEYDOWN:
+			if e.key == SDLK_ESCAPE:
+				game_framework.quit()
+			elif e.key == SDLK_SPACE:
+				game_framework.push_state(main_state)
 
 def pause():
-    pass
+	pass
 
 def resume():
-    pass
+	pass
 
 if __name__ == '__main__':
-    import sys
-    current_module = sys.modules[__name__]
-    open_canvas(1280, 720)
-    game_framework.run(current_module)
-    close_canvas()
+	import sys
+	current_module = sys.modules[__name__]	
+	open_canvas(1280, 720)
+	game_framework.run(current_module)
+	close_canvas()
