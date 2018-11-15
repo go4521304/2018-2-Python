@@ -6,12 +6,13 @@ class Player:
     def __init__(self):
         # stable value
         self.image = load_image("../res_term/character_1.png")
-        self.gravity = 0.5
-        self.length = 10
+        self.gravity = 0.1
+        self.length = 100
 
         # floating value
-        self.pos = [640, 720 - 1 - (self.length * 10)]
+        self.pos = [640, 720 - 1 - (self.length)]
         self.angle = 0.0
+
         # L->R == 1
         # L<-R == -1
         self.angle_dir = 1
@@ -37,16 +38,16 @@ class Player:
 
         # 방향 감지하고 바꿔줌
         if (current_velocity > 0.0 and self.angle_velocity < 0.0) or (current_velocity < 0.0 and self.angle_velocity > 0.0):
-            self.angle_velocity = 0
+            self.angle_velocity = 0.0
             self.state *= -1
             self.angle_dir *= -1
 
         # 가/감속 상태 변화
         elif (current_angle > 0.0 and self.angle < 0.0) or (current_angle < 0.0 and self.angle > 0.0):
-            self.angle = 0
+            self.angle = 0.0
             self.state *= -1
 
-        self.pos[0] = 640 + (self.length * 10 * math.sin(self.angle))
+        self.pos[0] = (int)(640 + (self.length * math.sin(self.angle)))
         #print (self.angle)
 
         print ("angle_dir: %d    angle: %f   angle_velocity: %f    pos: [%f, %f]   state: %f"\
