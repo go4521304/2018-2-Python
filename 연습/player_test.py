@@ -7,7 +7,7 @@ class Player:
         # stable value
         self.image = load_image("../res_term/character_1.png")
         self.gravity = 0.1
-        self.length = 100
+        self.length = 500
 
         # floating value
         self.pos = [640, 720 - 1 - (self.length)]
@@ -25,6 +25,8 @@ class Player:
         self.state = -1
 
         #self.resistance = 0.0
+        self.velocity = 0
+        self.parabola_high_pos = [0,0]
 
     def swing(self, frame_time):
         current_angle = self.angle
@@ -48,6 +50,7 @@ class Player:
             self.state *= -1
 
         self.pos[0] = (int)(640 + (self.length * math.sin(self.angle)))
+        self.pos[1] = (int)(720 - 1 - self.length * math.cos(self.angle))
         #print (self.angle)
 
         print ("angle_dir: %d    angle: %f   angle_velocity: %f    pos: [%f, %f]   state: %f"\
@@ -55,7 +58,10 @@ class Player:
         pass
 
     def jump(self):
-        pass
+        self.velocity = self.angle_velocity * self.length
+        self.parabola_high_pos = [(self.velocity**2) * math.sin(self.angle) * math.cos(self.angle) / self.gravity,
+                                  (self.velocity ** 2) * (math.sin(self.angle)**2)/2/self.gravity]
+        
 
     def draw(self):
         clear_canvas()
