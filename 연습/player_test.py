@@ -61,7 +61,7 @@ class Player:
         self.velocity = self.angle_velocity * self.length
         self.parabola_high_pos = [(self.velocity**2) * math.sin(self.angle) * math.cos(self.angle) / self.gravity,
                                   (self.velocity ** 2) * (math.sin(self.angle)**2)/2/self.gravity]
-        
+
 
     def draw(self):
         clear_canvas()
