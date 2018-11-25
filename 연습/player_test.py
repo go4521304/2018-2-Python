@@ -26,7 +26,7 @@ class Player:
 
         #self.resistance = 0.0
         self.velocity = 0
-        self.parabola_high_pos = [0,0]
+        self.parabola_high_pos = [0, 0]
 
     def swing(self, frame_time):
         current_angle = self.angle
