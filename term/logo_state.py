@@ -1,8 +1,10 @@
-import game_framework
-from pico2d import *
 import time
 
+from pico2d import *
+
+import game_framework
 import title_state
+
 
 def enter():
 	global image, startOn
