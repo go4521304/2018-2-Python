@@ -58,19 +58,21 @@ class Player:
 			else:
 				self.way = -1
 
+			self.pos = [Player.pos_center[0] + (math.sin(self.angle) * self.radious), 720 - (math.cos(self.angle) * self.radious)]			
 			print (self.angle)
 
 		# Swing	
 		elif self.cur_state == player.state[2]:
+			if self.velocity == 0:
+				self.way *= -1
+				self.angle = self.angle + (self.way * 0.001)
+				
 			if (abs(self.angle) > abs(self.max_angle)):
-				self.angle = self.max_angle * (self.way)
+				self.angle = abs(self.max_angle) * (self.way)
 
 			self.velocity = math.sqrt(2 * 9.8 * self.radious / 100 * (math.cos(self.angle) - math.cos(self.max_angle)))
 			print(self.velocity, self.angle)
 			self.angle = self.angle + (self.velocity / self.radious * self.way)
-			if self.velocity == 0:
-				self.way *= -1
-				self.angle = self.angle + (self.way * 0.001)
 
 			self.pos = [Player.pos_center[0] + (math.sin(self.angle) * self.radious), 720 - (math.cos(self.angle) * self.radious)]
 
