@@ -2,11 +2,21 @@ from pico2d import *
 import game_framework
 import math
 import time
+import json
+
+class Obj:
+	def __init__(self):
+		self.stage = '0'
+		self.num = '0'
+		self.length = []
+		self.monster_num = 0
+		self.monster = []
+		self.monster_type = []
 
 class Player:
+	STAGE_NUM = None
+
 	image = None
-
-
 	WH = [120, 160]
 	state = ['Sleep', 'Click', 'Swing', 'Jump']
 	pos_center = [320, 720] 
@@ -14,6 +24,9 @@ class Player:
 	def __init__(self):
 		if (Player.image == None):
 			Player.image = load_image("../res_term/character_1.png")
+		
+		if (Player.STAGE_NUM == None):
+			Player.STAGE_NUM = 0
 		
 		self.cur_state = Player.state[0]
 		self.radious = 0
@@ -79,10 +92,14 @@ class Player:
 
 			self.pos = [Player.pos_center[0] + (math.sin(self.angle) * self.radious), 720 - (math.cos(self.angle) * self.radious)]
 
+		# Jump
 		elif self.cur_state == player.state[3]:
 			self.pos[0] = self.pos[0] + (self.velocity * math.cos(self.angle)) * 5
 			self.pos[1] = self.pos[1] + ((self.velocity * math.sin(self.angle) - (9.8 * (time.time() - self.fram_count)/2)))
 
+			#if self.pos[1] > 620:
+			#	game_framework.change_state(game_over)
+			#	return
 
 
 	def draw(self):
@@ -93,7 +110,22 @@ class Player:
 
 def enter():
 	global player
+	global rope
 	player = Player()
+	rope = []
+
+	fh = open('obj_date.json', 'r')
+	data = json.load(fh)
+	for e in data["Stage"]:
+		St = Obj()
+		St.stage = e['stage_num']
+		St.num = e['num']
+		St.length = e['length']
+		St.monster_num = e['monster_num']
+		St.monster = e['monster']
+		St.monster_type = e['monster_type']
+		rope.append(St)
+
 
 def exit():
 	global player
@@ -136,10 +168,7 @@ def handle_events():
 
 		elif (e.type, e.button) == (SDL_MOUSEBUTTONUP, SDL_BUTTON_RIGHT) and player.cur_state == player.state[1]:
 			player.change_state('Swing')
-			print ("Swing State")
-
-
-			 
+			print ("Swing State")		 
 
 def update():
 	global player
