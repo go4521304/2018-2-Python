@@ -54,16 +54,25 @@ class Player:
 			
 			self.max_angle = self.angle
 			if self.max_angle > 0:
-				self.way = -1
-			else:
 				self.way = 1
+			else:
+				self.way = -1
 
 			print (self.angle)
 
 		# Swing	
 		elif self.cur_state == player.state[2]:
-			self.velocity = math.sqrt(2 * 9.8 * self.radious * (math.cos(self.angle) - math.cos(self.max_angle)))
-			print(self.velocity)
+			if (abs(self.angle) > abs(self.max_angle)):
+				self.angle = self.max_angle * (self.way)
+
+			self.velocity = math.sqrt(2 * 9.8 * self.radious / 100 * (math.cos(self.angle) - math.cos(self.max_angle)))
+			print(self.velocity, self.angle)
+			self.angle = self.angle + (self.velocity / self.radious * self.way)
+			if self.velocity == 0:
+				self.way *= -1
+				self.angle = self.angle + (self.way * 0.001)
+
+			self.pos = [Player.pos_center[0] + (math.sin(self.angle) * self.radious), 720 - (math.cos(self.angle) * self.radious)]
 
 		elif self.cur_state == player.state[3]:
 			pass
@@ -110,6 +119,9 @@ def handle_events():
 			if abs(player.pos[0] - e.x) <= player.WH[0] and abs(720 - player.pos[1] - e.y) <= player.WH[1]:
 				player.change_state('Click')
 				player.t_pos = [e.x, 720 - e.y]
+				player.max_angle = 0
+				player.angle = 0
+				player.velocity = 0
 				print ('Click state')
 
 		elif (e.type, player.cur_state) == (SDL_MOUSEMOTION, player.state[1]) and player.cur_state == player.state[1]:
