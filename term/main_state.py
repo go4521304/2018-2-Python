@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import math
+import time
 
 class Player:
 	image = None
@@ -15,7 +16,7 @@ class Player:
 			Player.image = load_image("../res_term/character_1.png")
 		
 		self.cur_state = Player.state[0]
-		self.radious = 100
+		self.radious = 0
 
 		self.pos = [320, 720 - self.radious]
 		self.t_pos = [0, 0]
@@ -25,6 +26,8 @@ class Player:
 		self.max_angle = 0.0
 		self.angle = 0.0
 		self.velocity = 0.0
+
+		self.fram_count = 0
 
 	def change_state(self, key):
 		# Sleep
@@ -77,7 +80,8 @@ class Player:
 			self.pos = [Player.pos_center[0] + (math.sin(self.angle) * self.radious), 720 - (math.cos(self.angle) * self.radious)]
 
 		elif self.cur_state == player.state[3]:
-			pass
+			self.pos[0] = self.pos[0] + (self.velocity * math.cos(self.angle)) * 5
+			self.pos[1] = self.pos[1] + ((self.velocity * math.sin(self.angle) - (9.8 * (time.time() - self.fram_count)/2)))
 
 
 
@@ -112,6 +116,7 @@ def handle_events():
 		# M_BT_L
 		elif (e.type, e.button) == (SDL_MOUSEBUTTONUP, SDL_BUTTON_LEFT):
 			player.change_state('Jump')
+			player.fram_count = time.time()
 			print ('Jump state')
 
 		# M_BT_R
