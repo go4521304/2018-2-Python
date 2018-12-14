@@ -3,12 +3,13 @@ import game_framework
 import math
 import time
 import json
+import game_over
 
 class Obj:
 	WH = [10, 100]
 	def __init__(self):
 		self.stage = '0'
-		self.num = '0'
+		self.num = 0
 		self.length = []
 		self.monster_num = 0
 		self.monster = []
@@ -70,16 +71,23 @@ class Player:
 	# type == 0 / rope
 	def check_Boundary(self, Target, type):
 		if (type == 0):
-			if (self.pos[0] + self.WH[0] > 960 and self.pos[0] - self.WH[0] < 960) and\
-			 (self.pos[1] - self.WH[1] < Target * 100 and self.pos[1] + self.WH[1] > (Target + 1) * 100):
+			if (self.pos[0] > 960 and self.pos[0] - self.WH[0] < 960) and\
+			 (self.pos[1] - 20 < 720 - (Target * 100) and self.pos[1] + 20 > 720 - ((Target + 1) * 100)):
 			 return True 
 
 	def scrolling(self):
-		
+		delay(1)
 
-	def reset(self):
+	def reset(self, i):
+		global rope
 		self.rope_num += 1
-		self.radious = rope[Player.STAGE_NUM].length[self.rope_num]
+		if (self.rope_num == rope[self.STAGE_NUM].num):
+			rope.stage = '1'
+			self.STAGE_NUM = 2
+		#self.radious = rope[Player.STAGE_NUM].length[self.rope_num]
+		if (i == 0):
+			i += 1
+		self.radious = i * 100
 		self.pos = [320, 720 - self.radious]
 		self.t_pos = [0, 0]
 		self.way = 0
@@ -133,13 +141,12 @@ class Player:
 				if (self.check_Boundary(i, 0) == True):
 					self.change_state('Sleep')
 					self.scrolling()
-					self.reset()
+					self.reset(i)
 					return
 
-
-			#if self.pos[1] > 620:
-			#	game_framework.change_state(game_over)
-			#	return
+			if self.pos[1] < 720 - 620:
+				game_framework.change_state(game_over)
+				return
 
 
 	def draw(self):
@@ -173,7 +180,7 @@ def enter():
 		St.monster = e['monster']
 		St.monster_type = e['monster_type']
 		rope.append(St)
-	
+
 	player = Player()
 
 
